@@ -1,0 +1,3 @@
+[submodule "benchmarks/third_party/LeetCUDA"]
+	path = benchmarks/third_party/LeetCUDA
+	url = https://github.com/xlite-dev/LeetCUDA.git

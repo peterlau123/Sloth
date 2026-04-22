@@ -1,0 +1,86 @@
+operators:
+  add:
+    description: "Elementwise addition"
+    workloads:
+      - name: small
+        shape: [1024, 1024]
+        dtype: float32
+        warmup: 10
+        repeat: 100
+      - name: medium
+        shape: [4096, 4096]
+        dtype: float32
+        warmup: 10
+        repeat: 100
+      - name: large
+        shape: [16384, 16384]
+        dtype: float32
+        warmup: 5
+        repeat: 50
+      - name: large_fp16
+        shape: [16384, 16384]
+        dtype: float16
+        warmup: 5
+        repeat: 50
+    implementations:
+      - sloth-cute
+      - sloth-triton
+      - sloth-cutlass
+      - torch
+      - leetcuda
+
+  softmax:
+    description: "Softmax along last dimension"
+    workloads:
+      - name: transformer_small
+        shape: [1, 128, 4096]
+        dtype: float32
+        warmup: 10
+        repeat: 100
+      - name: transformer_medium
+        shape: [8, 512, 4096]
+        dtype: float32
+        warmup: 10
+        repeat: 100
+      - name: transformer_large
+        shape: [32, 1024, 4096]
+        dtype: float16
+        warmup: 5
+        repeat: 50
+    implementations:
+      - sloth-triton
+      - torch
+
+  gemm:
+    description: "General matrix multiplication (MxK @ KxN)"
+    workloads:
+      - name: small
+        M: 1024
+        K: 1024
+        N: 1024
+        dtype: float32
+        warmup: 10
+        repeat: 100
+      - name: medium
+        M: 4096
+        K: 4096
+        N: 4096
+        dtype: float32
+        warmup: 10
+        repeat: 100
+      - name: large
+        M: 8192
+        K: 8192
+        N: 8192
+        dtype: float16
+        warmup: 5
+        repeat: 50
+    implementations:
+      - sloth-cute
+      - sloth-cutlass
+      - torch
+      - leetcuda
+
+global:
+  device: cuda
+  seed: 42
